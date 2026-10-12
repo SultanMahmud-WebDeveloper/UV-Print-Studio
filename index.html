@@ -1,0 +1,95 @@
+<!-- Date- 12-10-2026
+Name- MD. SULTAN MAHMUD 
+
+ -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UV Print Visualizer</title>
+<!--
+  UV PRINT VISUALIZER — single-file demo
+  ---------------------------------------------------------------
+  * No external libraries, fonts or images: everything (rooms, artwork,
+    icons) is generated in code, so it works offline and inside a Wix
+    "Embed HTML" component.
+  * Perspective warp: homography (unit square -> quad) + textured triangle mesh.
+  * Structure:  1) CSS   2) HTML   3) JS (assets, state, warp engine, UI, events)
+-->
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- ============================ 2. MARKUP ============================ -->
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">UV</div>
+      <div><strong>UV Print Studio</strong><small>Visualizer · see your print before you order</small></div>
+    </div>
+    <button class="cta" id="quoteBtn">Request a Quote</button>
+  </header>
+
+  <div class="layout">
+    <!-- ---------------- Control panel ---------------- -->
+    <aside class="panel" aria-label="Controls">
+      <section class="card">
+        <h2><span class="step">1</span>Choose a room</h2>
+        <div class="room-grid" id="roomGrid"></div>
+        <button class="btn full" id="uploadRoomBtn">⬆ Upload your own room photo</button>
+        <input type="file" id="roomFile" accept="image/*" hidden>
+      </section>
+
+      <section class="card">
+        <h2><span class="step">2</span>Surface to customize</h2>
+        <div class="surf-list" id="surfList"></div>
+      </section>
+
+      <section class="card">
+        <h2><span class="step">3</span>Artwork library</h2>
+        <div class="art-grid" id="artGrid"></div>
+        <div class="art-name" id="artName"></div>
+        <button class="btn full" id="applyAllBtn">Apply to all surfaces</button>
+        <input type="file" id="artFile" accept="image/*" hidden>
+      </section>
+
+      <section class="card">
+        <h2><span class="step">4</span>Fine-tune</h2>
+        <div class="ctl"><label for="scale">Scale <output id="scaleOut">100%</output></label>
+          <input type="range" id="scale" min="40" max="220" value="100"></div>
+        <div class="ctl"><label for="rot">Rotation <output id="rotOut">0°</output></label>
+          <input type="range" id="rot" min="-180" max="180" value="0"></div>
+        <div class="ctl"><label for="zoom">Artwork zoom <output id="zoomOut">100%</output></label>
+          <input type="range" id="zoom" min="100" max="300" value="100"></div>
+        <div class="ctl"><label for="opacity">Print opacity <output id="opacityOut">100%</output></label>
+          <input type="range" id="opacity" min="30" max="100" value="100"></div>
+        <div class="ctl" style="margin-bottom:0"><label>Material finish</label>
+          <div class="mats" id="matGrid"></div></div>
+      </section>
+    </aside>
+
+    <!-- ---------------- Visualizer ---------------- -->
+    <main class="stage-wrap">
+      <div class="stage" id="stage">
+        <div class="loading" id="loading">Loading visualizer…</div>
+        <canvas id="cv" aria-label="Room visualizer canvas"></canvas>
+        <div class="chip" id="chip">Editing: <b>—</b></div>
+        <div class="hint" id="hint">Drag the numbered corner points to fit the print · drag inside to move</div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" id="guidesBtn" aria-pressed="true">◻ Guides</button>
+        <button class="btn" id="compareBtn">👁 Hold to see original</button>
+        <button class="btn" id="resetBtn">↺ Reset surface</button>
+        <button class="btn" id="clearBtn">✕ Remove print</button>
+        <button class="btn primary" id="downloadBtn">⬇ Download preview</button>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
